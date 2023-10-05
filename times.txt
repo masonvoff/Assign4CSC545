@@ -1,0 +1,37 @@
+5 trials without initial State
+
+Times with BackTracking: 0.010029077529907227, 0.020999670028686523, 0.03200078010559082, 0.009999513626098633, 0.024000883102416992
+
+Times with Back and Forward tracking: 0.013998270034790039, 0.030000686645507812, 0.04697155952453613, 0.015000343322753906, 0.032001495361328125
+
+Times with Backtracking and AC3: 0.0, 0.0, 0.0, 0.0, 0.0
+
+Times with min-conflicts: 0.0, 0.0, 0.0010004043579101562, 0.0, 0.0
+
+Times with genetic algorithm: 0.7460060119628906, 1.0600333213806152, 3.387230157852173, 0.004000186920166016, 0.06800174713134766
+
+
+5 trials with initial state
+
+Times with BackTracking: 0.02299332618713379, 0.024029254913330078, 0.0190274715423584, 0.008933067321777344, 0.01799631118774414
+
+Times with Back and Forward tracking: 0.03200078010559082, 0.029006242752075195, 0.02600264549255371, 0.023000240325927734, 0.06000494956970215
+
+Times with Backtracking and AC3: 0.0, 0.0, 0.0, 0.0, 0.0
+
+Times with min-conflicts: 0.0, 0.0, 0.0, 0.0, 0.0
+
+Averages without initial
+
+Backtracking: .019198 s
+Back and forward: .027594 s
+Back and AC3: 0.0 s     - too small to measure
+min-conflicts: .0002 s
+genetic: 1.053 s
+
+Averages with initial
+
+Backtracking: .018595 s
+Back and forward: .0346 s
+Back and AC3: 0.0 s     - too small to measure
+min-conflicts: 0.0 s     - too small to measure

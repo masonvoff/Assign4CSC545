@@ -4,32 +4,9 @@ from Border import Border
 from Individual import Individual
 from Map import Map
 from Population import Population
+from Searches import bfsWithBack,bfsWithBackForward,bfsWithBackAC3,minConflicts
+import time
 
-# Author Fan Zhang
-def createBigMap():
-    # Creates a Map object with all of the states from bigstates.txt
-    map = Map()
-    uniqueStates = set()
-    uniqueBorders = set()
-    with open('bigstates.txt', 'r') as file:
-        for line in file:
-            stateCodes = line.strip().split(',')
-            # Add the first state code to the map's states list and the set
-            if stateCodes[0] not in uniqueStates:
-                map.states.append(stateCodes[0])
-                uniqueStates.add(stateCodes[0])
-            for i in range(1, len(stateCodes)):
-                # Add the next state code to the states list and the set
-                if stateCodes[i] not in uniqueStates:
-                    map.states.append(stateCodes[i])
-                    uniqueStates.add(stateCodes[i])
-                # Create a border between the first state and the following state if it doesn't exist
-                border = (map.states.index(stateCodes[0]), map.states.index(stateCodes[i]))
-                # Check if the border or its reverse already exists
-                if border not in uniqueBorders and (border[1], border[0]) not in uniqueBorders:
-                    map.borders.append(Border(*border))
-                    uniqueBorders.add(border)
-    return map
 
 
 def initMap(map):
@@ -61,14 +38,80 @@ def initMap(map):
     map.borders.append(Border(6, 9))
     map.borders.append(Border(7, 8))
     map.borders.append(Border(7, 9))
+def createMapGraph():
+    with open('smallstates.txt', 'r') as file:
+        data = file.read()
+    graph = {}
+    lines = data.split("\n")
+    for line in lines:
+        if line:
+            state_codes = line.split(",")
+            first_state = state_codes[0]
+            connected_states = state_codes[1:]
+            graph[first_state] = connected_states
+    return graph
+
 
 if __name__ == '__main__':
-    #bigmap = createBigMap()
+    # Example graph represented as an adjacency list
+
+    graph = createMapGraph()
+    colors = ['Red', 'Green', 'Blue', 'Yellow']
+    initial = input("would you like a state initialized(Florida always red) input 0 or 1")
+    if initial != 1 or initial != 0:
+        initial = 0 #makes sure that the program will run if wrong input is entered
+
+    before = float(time.time())
+    mapSolver = bfsWithBack(graph)
+    solution = mapSolver.mapColoring(colors, initial)
+    after = float(time.time())
+    if solution:
+        print("Map coloring solution found with backtracking in :",after-before)
+        for node, color in solution.items():
+            print(f"{node}: {color}")
+    else:
+        print("No solution found.")
+
+    before = float(time.time())
+    mapSolver = bfsWithBackForward(graph, colors, initial)
+    solution = mapSolver.solve()
+    after = float(time.time())
+    if solution:
+        print("Map coloring solution found with backtracking and forward in:",after-before)
+        for node, color in solution.items():
+            print(f"{node}: {color}")
+    else:
+        print("No solution found.")
+
+    before = float(time.time())
+    mapSolver = bfsWithBackAC3(graph, colors, initial)
+    solution = mapSolver.solve()
+    after = float(time.time())
+    if solution:
+        print("Map coloring solution found with backtracking and ac3 in:",after-before)
+        for node, color in solution.items():
+            print(f"{node}: {color}")
+    else:
+        print("No solution found.")
+
+    before = float(time.time())
+    mapSolver = minConflicts(graph, colors, initial)
+    solution = mapSolver.solve()
+    after = float(time.time())
+    if solution:
+        print("Map coloring solution found with min-conflicts in:",after-before)
+        for node, color in solution.items():
+            print(f"{node}: {color}")
+    else:
+        print("No solution found within the maximum number of steps.")
+
+    # bigmap = createBigMap()
     map = Map()
     initMap(map)
-    populationSize = 10
+    before = float(time.time())
+    populationSize = 10  # TODO find a reasonable value
     population = Population(map, populationSize)
-    maxIterations = 20000
+    maxIterations = 200000  # TODO find a reasonable value
     currentIteration = 0
     goalFound = False
     bestIndividual = Individual(map)  # to hold the individual representing the goal, if any
@@ -78,7 +121,7 @@ if __name__ == '__main__':
             x = population.randomSelection()
             y = population.randomSelection()
             child = x.reproduce(x, y)
-            if random.randint(0,200) == 23:
+            if random.randint(0, 200) == 23:  # TODO use a small probability instead
                 child.mutate()
             if child.isGoal():
                 goalFound = True
@@ -90,5 +133,15 @@ if __name__ == '__main__':
     if goalFound:
         print("Found a solution after", currentIteration, "iterations")
         bestIndividual.printresult()
+        after = float(time.time())
     else:
         print("Did not find a solution after", currentIteration, "iterations")
+        after = float(time.time())
+    print("Map coloring solution found with genetic algorithm in:",after-before)
+
+
+
+
+
+
+
