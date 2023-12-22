@@ -1,4 +1,5 @@
-import random
+import secrets
+
 # Author Fan Zhang
 class Individual:
 
@@ -12,16 +13,16 @@ class Individual:
     def singleColor(self,change):
         #changes one color
         colors = ["Red", "Blue", "Green", "Yellow"]
-        change = colors[random.randint(0,3)]
+        change = colors[secrets.SystemRandom().randint(0,3)]
         return change
 
     def randomColors(self):
         #assigns colors randomly to states
         colors = ["Red", "Blue", "Green", "Yellow"]
         colorAssignments = {}
-        random.shuffle(colors)
+        secrets.SystemRandom().shuffle(colors)
         for state in self.map.states:
-            colorAssignments[state] = colors[random.randint(0,3)]
+            colorAssignments[state] = colors[secrets.SystemRandom().randint(0,3)]
         return colorAssignments
 
     def calculateFitness(self):

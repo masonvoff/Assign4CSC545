@@ -1,4 +1,3 @@
-import random
 
 from Border import Border
 from Individual import Individual
@@ -6,6 +5,7 @@ from Map import Map
 from Population import Population
 from Searches import bfsWithBack,bfsWithBackForward,bfsWithBackAC3,minConflicts
 import time
+import secrets
 
 
 
@@ -121,7 +121,7 @@ if __name__ == '__main__':
             x = population.randomSelection()
             y = population.randomSelection()
             child = x.reproduce(x, y)
-            if random.randint(0, 200) == 23:  # TODO use a small probability instead
+            if secrets.SystemRandom().randint(0, 200) == 23:  # TODO use a small probability instead
                 child.mutate()
             if child.isGoal():
                 goalFound = True
