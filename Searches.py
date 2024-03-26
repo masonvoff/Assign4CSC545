@@ -1,5 +1,5 @@
 from collections import deque
-import random
+import secrets
 
 
 class bfsWithBack():
@@ -128,7 +128,7 @@ class minConflicts():
     def __init__(self, graph, colors, initial, maxSteps=10000):
         self.graph = graph
         self.colors = colors
-        self.assignment = {node: random.choice(colors) for node in graph.keys()}
+        self.assignment = {node: secrets.SystemRandom().choice(colors) for node in graph.keys()}
         self.max_steps = maxSteps
         if initial == 1:
             self.assignment["FL"] = 'Red'
@@ -161,7 +161,7 @@ class minConflicts():
             conflictedNodes = [node for node in self.assignment.keys() if not self.isValidColor(node, self.assignment[node], self.assignment)]
             if not conflictedNodes:
                 return self.assignment
-            node = random.choice(conflictedNodes)
+            node = secrets.SystemRandom().choice(conflictedNodes)
             newColor = self.minConflictsVal(node, self.assignment)
             self.assignment[node] = newColor
         return None

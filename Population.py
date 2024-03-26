@@ -1,8 +1,8 @@
 #Class representing a population of individuals
 # Author Fan Zhang
-import random
 
 from Individual import Individual
+import secrets
 
 class Population:
 	# Actual standard ctor.
@@ -18,4 +18,4 @@ class Population:
     # return The selected individual.
     def randomSelection(self):
         # Randomly select an individual from the population
-        return random.choice(self.vector)
+        return secrets.SystemRandom().choice(self.vector)
